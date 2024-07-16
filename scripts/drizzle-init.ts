@@ -35,3 +35,4 @@ await db
     },
   ])
 client.end()
+console.log("Finished Init");
