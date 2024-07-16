@@ -1,5 +1,5 @@
 import { error, json } from "@sveltejs/kit";
-import { db } from "../../../hooks.server";
+import { db } from "$lib/db";
 import { t_user } from "$lib/schema";
 import { eq, inArray } from "drizzle-orm";
 import { ZodError, z } from "zod";

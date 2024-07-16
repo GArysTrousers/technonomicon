@@ -1,6 +1,6 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { db } from "../../../../hooks.server";
+import { db } from "$lib/db";
 import { t_user } from "$lib/schema";
 import ldap from "ldapjs-promise";
 import { LDAP_BASE, LDAP_PASSWORD, LDAP_STUDENT_BASE, LDAP_URL, LDAP_USER } from "$env/static/private";
@@ -42,15 +42,14 @@ export const POST: RequestHandler = async () => {
     await db
       .insert(t_user)
       .values(users)
-      .onConflictDoUpdate({
-        target: t_user.user_id,
+      .onDuplicateKeyUpdate({
         set: {
-          fn: sql.raw(`excluded.${t_user.fn.name}`),
-          ln: sql.raw(`excluded.${t_user.ln.name}`),
-          dn: sql.raw(`excluded.${t_user.dn.name}`),
-          type: sql.raw(`excluded.${t_user.type.name}`),
-          groups: sql.raw(`excluded.${t_user.groups.name}`),
-          enabled: sql.raw(`excluded.${t_user.enabled.name}`),
+          fn: sql`values(${t_user.fn})`,
+          ln: sql`values(${t_user.ln})`,
+          dn: sql`values(${t_user.dn})`,
+          type: sql`values(${t_user.type})`,
+          groups: sql`values(${t_user.groups})`,
+          enabled: sql`values(${t_user.enabled})`,
         }
       })
 

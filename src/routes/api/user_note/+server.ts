@@ -1,9 +1,9 @@
 import { error, json } from '@sveltejs/kit';
 import { ZodError, z } from "zod";
-import type { RequestHandler } from './save/$types';
-import { db } from '../../../hooks.server';
+import { db } from "$lib/db";
 import { t_user_note } from '$lib/schema';
 import { sql } from 'drizzle-orm';
+import type { RequestHandler } from './$types';
 
 const schema = {
   body: z.object({

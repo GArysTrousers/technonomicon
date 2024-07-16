@@ -1,5 +1,5 @@
 import { json } from "@sveltejs/kit";
-import { db } from "../../../hooks.server";
+import { db } from "$lib/db";
 import { t_device, t_model } from "$lib/schema";
 import { eq } from "drizzle-orm";
 import type { RequestHandler } from "./$types";

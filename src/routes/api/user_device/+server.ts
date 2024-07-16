@@ -1,8 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 import { ZodError, z } from "zod";
-import { db } from '../../../hooks.server';
+import { db } from "$lib/db";
 import { t_user_device } from '$lib/schema';
-import type { RequestHandler } from './assign/$types';
+import type { RequestHandler } from './$types';
 
 const schema = {
   params: z.object({}),

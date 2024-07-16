@@ -1,5 +1,5 @@
 import { json } from "@sveltejs/kit";
-import { db } from "../../../../hooks.server";
+import { db } from "$lib/db";
 import { t_device } from "$lib/schema";
 import ldap from "ldapjs-promise";
 import { LDAP_COMPUTER_BASE, LDAP_PASSWORD, LDAP_URL, LDAP_USER } from "$env/static/private";
@@ -39,14 +39,12 @@ export const POST: RequestHandler = async () => {
     await db
       .insert(t_device)
       .values(devices)
-      .onConflictDoUpdate({
-        target: t_device.device_id,
+      .onDuplicateKeyUpdate({
         set: {
-          model_id: sql.raw(`excluded.${t_device.model_id.name}`),
-          enabled: sql.raw(`excluded.${t_device.enabled.name}`),
+          model_id: sql`values(${t_device.model_id})`,
+          enabled: sql`values(${t_device.enabled})`,
         }
       })
-
     return json({
       Machines: devices.length
     })

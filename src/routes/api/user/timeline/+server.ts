@@ -1,6 +1,6 @@
 import { error, json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { db } from "../../../../hooks.server";
+import { db } from "$lib/db";
 import { t_device, t_model, t_user, t_user_device, t_user_note } from "$lib/schema";
 import { desc, eq } from "drizzle-orm";
 import { ZodError, z } from 'zod'

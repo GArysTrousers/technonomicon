@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "db:update": "bunx drizzle-kit generate && bun run ./scripts/drizzle-migrate.ts",
-    "db:init": "bun run ./scripts/drizzle-rm.ts && bunx drizzle-kit generate && bun run ./scripts/drizzle-migrate.ts && bun run ./scripts/drizzle-init.ts",
+    "db:init": "bun run ./scripts/drizzle-init.ts",
     "compile": "bun build ./build/index.js --compile --outfile ./app.exe",
     "dev": "vite dev",
     "build": "vite build",
@@ -47,9 +47,10 @@
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "dayjs": "^1.11.11",
+    "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.10",
     "ldapjs-promise": "^3.0.6",
-    "mysql2": "^3.10.0",
+    "mysql2": "^3.10.3",
     "svelte-fa": "^4.0.2"
   },
   "trustedDependencies": [
