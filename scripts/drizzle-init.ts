@@ -34,5 +34,5 @@ await db
       enabled: 1,
     },
   ])
-client.end()
+client.destroy()
 console.log("Finished Init");

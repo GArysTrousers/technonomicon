@@ -14,5 +14,5 @@ const client = await createConnection({
 })
 const db = drizzle(client);
 await migrate(db, { migrationsFolder: "./drizzle" });
-client.end();
+client.destroy();
 console.log("Finished Migration");
