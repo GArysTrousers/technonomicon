@@ -1,0 +1,59 @@
+{
+  "name": "armoury",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "db:update": "bunx drizzle-kit generate && bun run ./scripts/drizzle-migrate.ts",
+    "db:init": "bun run ./scripts/drizzle-rm.ts && bunx drizzle-kit generate && bun run ./scripts/drizzle-migrate.ts && bun run ./scripts/drizzle-init.ts",
+    "compile": "bun build ./build/index.js --compile --outfile ./app.exe",
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-auto": "^3.0.0",
+    "@sveltejs/kit": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.0",
+    "@types/bun": "^1.1.3",
+    "@types/eslint": "^8.56.0",
+    "@types/ldapjs": "^3.0.6",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "autoprefixer": "^10.4.19",
+    "drizzle-kit": "^0.21.4",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-svelte": "^2.35.1",
+    "flowbite": "^2.3.0",
+    "flowbite-svelte": "^0.46.1",
+    "postcss": "^8.4.38",
+    "prettier": "^3.1.1",
+    "prettier-plugin-svelte": "^3.1.2",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "svelte": "^4.2.7",
+    "svelte-adapter-bun": "^0.5.2",
+    "svelte-check": "^3.6.0",
+    "tailwindcss": "^3.4.3",
+    "tslib": "^2.4.1",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "dayjs": "^1.11.11",
+    "drizzle-orm": "^0.30.10",
+    "ldapjs-promise": "^3.0.6",
+    "mysql2": "^3.10.0",
+    "svelte-fa": "^4.0.2"
+  },
+  "trustedDependencies": [
+    "es5-ext",
+    "svelte-preprocess"
+  ]
+}
