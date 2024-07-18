@@ -14,7 +14,7 @@ const schema = {
   })
 }
 
-export const PUT: RequestHandler = async ({ params, request, locals, url }) => {
+export const PUT: RequestHandler = async ({ request, url }) => {
   try {
     let body = schema.body.parse(await request.json());
     let date = new Date(body.date)
@@ -35,9 +35,6 @@ export const PUT: RequestHandler = async ({ params, request, locals, url }) => {
         date
       })
     }
-
-    
-
     return json({})
   } catch (e) {
     if (e instanceof ZodError)

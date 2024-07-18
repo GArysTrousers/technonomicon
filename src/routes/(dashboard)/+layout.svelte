@@ -23,7 +23,7 @@
 </script>
 
 <svelte:head>
-  <title>Scribe</title>
+  <title>Techno</title>
 </svelte:head>
 
 <div class="flex-row gap-5 p-3">
