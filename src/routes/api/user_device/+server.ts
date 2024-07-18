@@ -10,18 +10,22 @@ const schema = {
     user_id: z.string(),
     device_id: z.string(),
     assign_type: z.number(),
+    started: z.string().datetime(),
     notes: z.string(),
   })
 }
 
-export const POST: RequestHandler = async ({ request, url }) => {
+export const PUT: RequestHandler = async ({ request, url }) => {
   try {
     let body = schema.body.parse(await request.json());
-
+    let started = new Date(body.started)
+    console.log(started);
+    
     await db
       .insert(t_user_device)
       .values({
         ...body,
+        started,
         admin_id: 'abc',
       })
 

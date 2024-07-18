@@ -11,7 +11,7 @@ const schema = {
     user_id: z.string(),
     note_type: z.number(),
     text: z.string(),
-    date: z.string(),
+    date: z.string().datetime(),
   })
 }
 

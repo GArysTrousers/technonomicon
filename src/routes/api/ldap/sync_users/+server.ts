@@ -66,6 +66,9 @@ export const POST: RequestHandler = async () => {
 
 const groups = new Map<string, string>()
 // groups.set('CN=BSC Students,OU=Groups - Other,OU=Groups,DC=bsc,DC=local', 'Student')
+groups.set('CN=Year 12,OU=Year Levels,OU=Groups,OU=BSC,DC=bsc,DC=local', 'Year 12')
+groups.set('CN=Year 11,OU=Year Levels,OU=Groups,OU=BSC,DC=bsc,DC=local', 'Year 11')
+groups.set('CN=Year 10,OU=Year Levels,OU=Groups,OU=BSC,DC=bsc,DC=local', 'Year 10')
 groups.set('CN=Year 09,OU=Year Levels,OU=Groups,OU=BSC,DC=bsc,DC=local', 'Year 09')
 groups.set('CN=Year 08,OU=Year Levels,OU=Groups,OU=BSC,DC=bsc,DC=local', 'Year 08')
 groups.set('CN=Year 07,OU=Year Levels,OU=Groups,OU=BSC,DC=bsc,DC=local', 'Year 07')

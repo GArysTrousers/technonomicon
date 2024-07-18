@@ -70,7 +70,7 @@
 		<Search bind:value={search}></Search>
 		<Button class="!p-3" on:click={() => {}}><Fa icon={faFilter} size="lg" /></Button>
 	</div>
-	<Table shadow hoverale={true}>
+	<Table shadow hoverable={true}>
 		<TableHead>
 			<TableHeadCell>Name</TableHeadCell>
 			<TableHeadCell>ID</TableHeadCell>
@@ -79,7 +79,7 @@
 		<TableBody>
 			{#if users.length > 0}
 				{#each searchedUsers as u}
-					<TableBodyRow on:click={() => viewStudentDetails(u.user_id)}>
+					<TableBodyRow class="cursor-pointer" on:click={() => viewStudentDetails(u.user_id)}>
 						<TableBodyCell>{u.dn}</TableBodyCell>
 						<TableBodyCell>{u.user_id}</TableBodyCell>
 						<TableBodyCell>{u.groups}</TableBodyCell>

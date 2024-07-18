@@ -30,7 +30,7 @@
 			user_id: '',
 			note_type: 0,
 			text: '',
-			date: ''
+			date: dayjs().format('YYYY-MM-DDTHH:MM'),
 		}
 	};
 
@@ -69,7 +69,7 @@
 			user_id: userId,
 			note_type: 0,
 			text: '',
-			date: '0'
+			date: dayjs().format('YYYY-MM-DDTHH:MM'),
 		};
 		modalNoteEditor.target = user?.dn || 'Student';
 		modalNoteEditor.open = true;
@@ -77,7 +77,10 @@
 
 	async function saveNote() {
 		try {
-			let res = await api.put('/api/user_note', modalNoteEditor.note);
+			let res = await api.put('/api/user_note', {
+        ...modalNoteEditor.note,
+        date: dayjs(modalNoteEditor.note.date)
+      });
 			modalNoteEditor.open = false;
 			getUserDetails(userId);
 		} catch (e) {}
@@ -92,7 +95,7 @@
 	{:else}
 		<div class="flex-col gap-3">
 			<div class="flex-row gap-3">
-				<Avatar size="lg" src="/portrait/{user.user_id}.jpg" alt="portrait" />
+				<Avatar size="xl" class="object-cover" src="/content/portrait/{user.user_id}.jpg" alt="portrait" />
 				<div class="flex-col">
 					<Heading tag="h3">{user.dn}</Heading>
 					<div class="">{user.user_id}</div>

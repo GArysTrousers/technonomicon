@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { api } from '$lib/api';
-	import { Button, Radio, Search, Select, Textarea } from 'flowbite-svelte';
+	import { Button, Datepicker, Input, Radio, Search, Select, Textarea } from 'flowbite-svelte';
 	import { onMount } from 'svelte';
 	import type { GetDeviceRes } from '../../routes/api/device/+server';
+	import dayjs from 'dayjs';
 
 	export let userId = '';
 	export let onSubmit = () => {};
@@ -11,6 +12,7 @@
 	let assign_type = 1;
 	let selectedMachine = '';
 	let notes = '';
+  let date = dayjs().format('YYYY-MM-DDTHH:MM');
 	let devices: GetDeviceRes = [];
 
 	onMount(async () => {
@@ -32,6 +34,7 @@
 				user_id: userId,
 				device_id: selectedMachine,
 				assign_type: assign_type,
+        started: date,
 				notes: notes
 			});
 			onSubmit();
@@ -50,6 +53,7 @@
 			]}
 		></Select>
 		<Textarea placeholder="Notes..." rows={4} bind:value={notes}></Textarea>
+    <Input type="datetime-local" bind:value={date}/>
 	</div>
 	<div class="flex-col gap-3">
 		<Search bind:value={search}></Search>
