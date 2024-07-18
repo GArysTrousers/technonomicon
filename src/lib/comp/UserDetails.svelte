@@ -30,7 +30,7 @@
 			user_id: '',
 			note_type: 0,
 			text: '',
-			date: dayjs().format('YYYY-MM-DDTHH:MM'),
+			date: dayjs().format('YYYY-MM-DDTHH:mm'),
 		}
 	};
 
@@ -69,7 +69,7 @@
 			user_id: userId,
 			note_type: 0,
 			text: '',
-			date: dayjs().format('YYYY-MM-DDTHH:MM'),
+			date: dayjs().format('YYYY-MM-DDTHH:mm'),
 		};
 		modalNoteEditor.target = user?.dn || 'Student';
 		modalNoteEditor.open = true;

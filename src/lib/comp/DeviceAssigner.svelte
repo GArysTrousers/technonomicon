@@ -12,7 +12,7 @@
 	let assign_type = 1;
 	let selectedMachine = '';
 	let notes = '';
-  let date = dayjs().format('YYYY-MM-DDTHH:MM');
+  let date = dayjs().format('YYYY-MM-DDTHH:mm');
 	let devices: GetDeviceRes = [];
 
 	onMount(async () => {
@@ -34,7 +34,7 @@
 				user_id: userId,
 				device_id: selectedMachine,
 				assign_type: assign_type,
-        started: date,
+        started: dayjs(date),
 				notes: notes
 			});
 			onSubmit();

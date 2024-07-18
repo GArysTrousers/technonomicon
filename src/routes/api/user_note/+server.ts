@@ -2,7 +2,6 @@ import { error, json } from '@sveltejs/kit';
 import { ZodError, z } from "zod";
 import { db } from "$lib/db";
 import { t_user_note } from '$lib/schema';
-import { sql } from 'drizzle-orm';
 import type { RequestHandler } from './$types';
 
 const schema = {
@@ -18,6 +17,7 @@ const schema = {
 export const PUT: RequestHandler = async ({ params, request, locals, url }) => {
   try {
     let body = schema.body.parse(await request.json());
+    let date = new Date(body.date)
 
     if (body.note_id === 0) {
       await db
@@ -26,7 +26,13 @@ export const PUT: RequestHandler = async ({ params, request, locals, url }) => {
         user_id: body.user_id,
         note_type: body.note_type,
         text: body.text,
-        date: sql`CURRENT_TIMESTAMP`,
+        date: date,
+      })
+    } else {
+      await db.update(t_user_note)
+      .set({
+        ...body,
+        date
       })
     }
 

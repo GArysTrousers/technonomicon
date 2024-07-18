@@ -19,7 +19,6 @@ export const PUT: RequestHandler = async ({ request, url }) => {
   try {
     let body = schema.body.parse(await request.json());
     let started = new Date(body.started)
-    console.log(started);
     
     await db
       .insert(t_user_device)
