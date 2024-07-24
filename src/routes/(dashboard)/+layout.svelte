@@ -12,7 +12,7 @@
 	import { page } from '$app/stores';
 
 	let site = {
-		name: 'Technonomicon',
+		name: 'Techno',
 		href: '/',
 		img: '/favicon.png'
 	};

@@ -5,7 +5,7 @@ import { eq, inArray } from "drizzle-orm";
 import { ZodError, z } from "zod";
 import type { RequestHandler } from "./$types";
 
-const schema = {
+const post = {
   body: z.object({
     id: z.string().optional(),
     ids: z.array(z.string()).optional(),
@@ -15,7 +15,7 @@ const schema = {
 
 export const POST: RequestHandler = async ({ request, url }) => {
   try {
-    let body = schema.body.parse(await request.json());
+    let body = post.body.parse(await request.json());
 
     if (body.id) {
       const res = await db
@@ -40,6 +40,7 @@ export const POST: RequestHandler = async ({ request, url }) => {
   } catch (e) {
     if (e instanceof ZodError)
       console.log("Zod Error @", url.pathname, ...e.errors);
+    else console.log(e);
     throw error(400);
   }
 };
