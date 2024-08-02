@@ -35,6 +35,9 @@ export const PUT: RequestHandler = async ({ request, url }) => {
         date
       })
     }
+
+    
+
     return json({})
   } catch (e) {
     if (e instanceof ZodError)

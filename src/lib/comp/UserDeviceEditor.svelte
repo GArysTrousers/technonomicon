@@ -1,14 +1,37 @@
 <script lang="ts">
 	import { api } from '$lib/api';
 	import type { UserDevice } from '$lib/schema';
+	import {
+		faPaperclip,
+		faSpaghettiMonsterFlying,
+		faToolbox,
+		faWrench
+	} from '@fortawesome/free-solid-svg-icons';
 	import dayjs from 'dayjs';
-	import { Button, Heading, Input, Select, Spinner, Textarea } from 'flowbite-svelte';
+	import {
+		Button,
+		Heading,
+		Input,
+		Modal,
+		Select,
+		Spinner,
+		Textarea,
+		Timeline,
+		TimelineItem
+	} from 'flowbite-svelte';
+	import Fa from 'svelte-fa';
+	import UserDeviceNoteEditor from './UserDeviceNoteEditor.svelte';
 
 	export let userDeviceId: number | null = null;
 
 	export let onSubmit: () => void;
 
 	let userDevice: UserDevice | null = null;
+	let started = dayjs().format('YYYY-MM-DDTHH:mm');
+	let modalNoteEditor = {
+		open: false,
+		noteId: null
+	};
 
 	$: {
 		getUserDevice(userDeviceId);
@@ -19,6 +42,22 @@
 			userDevice = null;
 		} else {
 			userDevice = await api.get('/api/user_device', { id });
+			if (userDevice !== null) {
+				started = dayjs(userDevice.started).format('YYYY-MM-DDTHH:mm');
+			}
+		}
+	}
+
+	async function saveUserDevice() {
+		if (userDevice) {
+			await api.patch('/api/user_device/', {
+				user_device_id: userDevice.user_device_id,
+				set: {
+					assign_type: userDevice.assign_type,
+					started: userDevice.started,
+					notes: userDevice.notes
+				}
+			});
 		}
 	}
 </script>
@@ -28,10 +67,63 @@
 		<Spinner></Spinner>
 	{:else}
 		<Heading tag="h3">{userDevice.user_id} - {userDevice.device_id}</Heading>
-    <div>{dayjs(userDevice.started).format('DD MMM YYYY')}</div>
-    <Button class="" on:click={onSubmit}>Save</Button>
+		<div class="grid grid-cols-2 gap-3">
+			<div class="flex-col gap-2">
+				<div>Assignment Type</div>
+				<Select
+					bind:value={userDevice.assign_type}
+					items={[
+						{ value: 1, name: 'Loan' },
+						{ value: 2, name: 'BYOD' },
+						{ value: 3, name: 'SSR' }
+					]}
+				></Select>
+				<div>Assigned on:</div>
+				<Input type="datetime-local" value={started} />
+				<Textarea bind:value={userDevice.notes} placeholder="Notes..." rows={3} />
+				<Button class="" on:click={saveUserDevice}>Save</Button>
+			</div>
+			<div>
+				<div class="flex-row">
+					<Heading tag="h4">History</Heading>
+					<Button
+						on:click={() => {
+							modalNoteEditor.noteId = null;
+							modalNoteEditor.open = true;
+						}}>Add</Button
+					>
+				</div>
+				<Timeline>
+					<TimelineItem date={dayjs().format('DD MMM YYYY')}>
+						<div class="flex-row items-center gap-2 font-bold">
+							<Fa icon={faWrench} />
+							<div class="mr-auto">Repair</div>
+							<Fa icon={faPaperclip} />
+						</div>
+						<div>Replaced Screen</div>
+					</TimelineItem>
+					<TimelineItem date={dayjs().format('DD MMM YYYY')}>
+						<div class="flex-row items-center gap-2 font-bold">
+							<Fa icon={faWrench} />
+							<div>Repair</div>
+						</div>
+						<div>Replaced Screen</div>
+					</TimelineItem>
+				</Timeline>
+			</div>
+		</div>
 	{/if}
 </div>
+
+<Modal title="Add Note" bind:open={modalNoteEditor.open} size="sm">
+	<UserDeviceNoteEditor
+		bind:noteId={modalNoteEditor.noteId}
+		{userDeviceId}
+		onSubmit={() => {
+			modalNoteEditor.open = false;
+		}}
+	></UserDeviceNoteEditor>
+</Modal>
 
 <style>
 </style>

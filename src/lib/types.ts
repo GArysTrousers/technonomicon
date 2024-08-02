@@ -10,6 +10,11 @@ export enum AssignStatus {
   Unknown,
 }
 
-export enum NoteType {
+export enum UserNoteType {
   General
+}
+
+export enum UserDeviceNoteType {
+  General,
+  Repair
 }

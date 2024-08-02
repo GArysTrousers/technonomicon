@@ -75,3 +75,36 @@ export const PUT: RequestHandler = async ({ request, url }) => {
     throw error(400);
   }
 };
+
+const patch = {
+  body: z.object({
+    user_device_id: z.number(),
+    set: z.object({
+      assign_type: z.number(),
+      started: z.string().datetime(),
+      notes: z.string(),
+    })
+  })
+}
+export const PATCH: RequestHandler = async ({ request, url }) => {
+  try {
+    let body = patch.body.parse(await request.json());
+    let started = new Date(body.set.started)
+    
+    await db
+      .update(t_user_device)
+      .set({
+        ...body.set,
+        started: started
+      })
+      .where(eq(t_user_device.user_device_id, body.user_device_id))
+
+    return json({})
+  } catch (e) {
+    if (e instanceof ZodError)
+      console.log("Zod Error @", url.pathname, ...e.errors);
+    else
+      console.log(e);
+    throw error(400);
+  }
+};

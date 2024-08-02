@@ -6,7 +6,7 @@
 	import { Avatar, Button, Heading, Modal, Spinner, Timeline, TimelineItem } from 'flowbite-svelte';
 	import Fa from 'svelte-fa';
 	import DeviceAssigner from './DeviceAssigner.svelte';
-	import NoteEditor from './NoteEditor.svelte';
+	import UserNoteEditor from './UserNoteEditor.svelte';
 	import type { GetTimelineRes } from '../../routes/api/user/timeline/+server';
 	import type { GetUserOneRes } from '../../routes/api/user/+server';
 	import UserDeviceEditor from './UserDeviceEditor.svelte';
@@ -175,7 +175,7 @@
 </Modal>
 
 <Modal title="Add Note - {modalNoteEditor.target}" size="sm" bind:open={modalNoteEditor.open}>
-	<NoteEditor bind:note={modalNoteEditor.note} onSubmit={saveNote} />
+	<UserNoteEditor bind:note={modalNoteEditor.note} onSubmit={saveNote} />
 </Modal>
 
 <UserDeviceStatusSelector

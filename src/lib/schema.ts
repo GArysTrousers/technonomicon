@@ -40,6 +40,15 @@ export const t_user_device = mysqlTable('user_device', {
   notes: varchar('notes', { length: 255 }).notNull().default(''),
 })
 
+export type UserDeviceNote = InferSelectModel<typeof t_user_device_note>
+export const t_user_device_note = mysqlTable('user_device_note', {
+  note_id: int('note_id', { unsigned: true }).primaryKey().autoincrement(),
+  user_device_id: int('user_device_id', { unsigned: true }).notNull().references(() => t_user_device.user_device_id),
+  note_type: int('note_type', { unsigned: true }).notNull().default(0),
+  text: text('text').notNull().default(''),
+  date: datetime('date').notNull().default(sql`CURRENT_TIMESTAMP`)
+});
+
 export type Admin = InferSelectModel<typeof t_admin>
 export const t_admin = mysqlTable('admin', {
   admin_id: varchar('admin_id', { length: 255 }).primaryKey(),
