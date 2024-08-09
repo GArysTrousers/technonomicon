@@ -16,5 +16,6 @@ export enum UserNoteType {
 
 export enum UserDeviceNoteType {
   General,
-  Repair
+  Repair,
+  Warranty,
 }

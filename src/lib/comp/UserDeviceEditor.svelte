@@ -1,12 +1,7 @@
 <script lang="ts">
 	import { api } from '$lib/api';
-	import type { UserDevice } from '$lib/schema';
-	import {
-		faPaperclip,
-		faSpaghettiMonsterFlying,
-		faToolbox,
-		faWrench
-	} from '@fortawesome/free-solid-svg-icons';
+	import type { UserDevice, UserDeviceNote } from '$lib/schema';
+	import { faPaperclip, faWrench } from '@fortawesome/free-solid-svg-icons';
 	import dayjs from 'dayjs';
 	import {
 		Button,
@@ -21,12 +16,15 @@
 	} from 'flowbite-svelte';
 	import Fa from 'svelte-fa';
 	import UserDeviceNoteEditor from './UserDeviceNoteEditor.svelte';
+	import type { GetTimelineRes } from '../../routes/api/user_device/timeline/+server';
+	import { UserDeviceNoteType } from '$lib/types';
 
 	export let userDeviceId: number | null = null;
 
 	export let onSubmit: () => void;
 
 	let userDevice: UserDevice | null = null;
+	let userDeviceTimeline: UserDeviceNote[] | null = null;
 	let started = dayjs().format('YYYY-MM-DDTHH:mm');
 	let modalNoteEditor = {
 		open: false,
@@ -35,6 +33,7 @@
 
 	$: {
 		getUserDevice(userDeviceId);
+		getUserDeviceTimeline(userDeviceId);
 	}
 
 	async function getUserDevice(id: number | null) {
@@ -45,6 +44,13 @@
 			if (userDevice !== null) {
 				started = dayjs(userDevice.started).format('YYYY-MM-DDTHH:mm');
 			}
+		}
+	}
+	async function getUserDeviceTimeline(id: number | null) {
+		if (id === null) {
+			userDeviceTimeline = null;
+		} else {
+			userDeviceTimeline = await api.get<GetTimelineRes>('/api/user_device/timeline', { id });
 		}
 	}
 
@@ -94,21 +100,23 @@
 					>
 				</div>
 				<Timeline>
-					<TimelineItem date={dayjs().format('DD MMM YYYY')}>
-						<div class="flex-row items-center gap-2 font-bold">
-							<Fa icon={faWrench} />
-							<div class="mr-auto">Repair</div>
-							<Fa icon={faPaperclip} />
-						</div>
-						<div>Replaced Screen</div>
-					</TimelineItem>
-					<TimelineItem date={dayjs().format('DD MMM YYYY')}>
-						<div class="flex-row items-center gap-2 font-bold">
-							<Fa icon={faWrench} />
-							<div>Repair</div>
-						</div>
-						<div>Replaced Screen</div>
-					</TimelineItem>
+					{#if userDeviceTimeline !== null}
+						{#each userDeviceTimeline as item}
+							<TimelineItem date={dayjs().format('DD MMM YYYY')}>
+								<div class="flex-row items-center gap-2">
+									{#if item.note_type === UserDeviceNoteType.Repair}
+										<div class="font-bold text-orange-400" title="Repair"><Fa icon={faWrench} /></div>
+									{/if}
+									<div>{item.text}</div>
+									<!-- <Fa icon={faPaperclip} /> -->
+								</div>
+							</TimelineItem>
+						{:else}
+							None
+						{/each}
+					{:else}
+						<Spinner />
+					{/if}
 				</Timeline>
 			</div>
 		</div>
@@ -121,6 +129,7 @@
 		{userDeviceId}
 		onSubmit={() => {
 			modalNoteEditor.open = false;
+			getUserDeviceTimeline(userDeviceId);
 		}}
 	></UserDeviceNoteEditor>
 </Modal>

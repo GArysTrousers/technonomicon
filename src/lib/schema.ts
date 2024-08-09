@@ -46,7 +46,8 @@ export const t_user_device_note = mysqlTable('user_device_note', {
   user_device_id: int('user_device_id', { unsigned: true }).notNull().references(() => t_user_device.user_device_id),
   note_type: int('note_type', { unsigned: true }).notNull().default(0),
   text: text('text').notNull().default(''),
-  date: datetime('date').notNull().default(sql`CURRENT_TIMESTAMP`)
+  date: datetime('date').notNull().default(sql`CURRENT_TIMESTAMP`),
+  status: int('status', { unsigned: true }).notNull().default(0),
 });
 
 export type Admin = InferSelectModel<typeof t_admin>
