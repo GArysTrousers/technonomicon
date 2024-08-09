@@ -6,7 +6,7 @@ configDotenv()
 export default defineConfig({
   dialect: "mysql",
   schema: "./src/lib/schema.ts",
-  out: "./drizzle",
+  out: process.env.DRIZZLE_DIR,
   dbCredentials: {
     host: process.env.DB_HOST || "",
     port: Number(process.env.DB_PORT),

@@ -13,6 +13,6 @@ const client = await createConnection({
   database: process.env.DB_DATABASE,
 })
 const db = drizzle(client);
-await migrate(db, { migrationsFolder: "./drizzle" });
+await migrate(db, { migrationsFolder: process.env.DRIZZLE_DIR || "" });
 client.destroy();
 console.log("Finished Migration");
